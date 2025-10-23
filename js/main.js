@@ -55,7 +55,7 @@ class EvilCircle extends Shape {
     ctx.beginPath();
     ctx.strokeStyle = this.color;
     ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-    ctx.lineWidth = 15;
+    ctx.lineWidth = 3;
     ctx.stroke();
   }
 
@@ -86,6 +86,8 @@ class EvilCircle extends Shape {
 
         if (distance < this.size + ball.size) {
           ball.exists = false;
+          ballCount--;
+          totalBallCount();
         }
       }
     }
@@ -143,6 +145,14 @@ class Ball extends Shape {
   }
 }
 
+const p = document.querySelector('p');
+let ballCount = 0;
+function totalBallCount() {
+  if (p) {
+    p.innerHTML = `Ball count: ${ballCount}`
+  }
+}
+
 const balls = [];
 
 while (balls.length < 25) {
@@ -159,9 +169,11 @@ while (balls.length < 25) {
   );
 
   balls.push(ball);
+  ballCount += 1;
+  totalBallCount();
 }
 
-const evilCircle = new EvilCircle(10, 10);
+const evilCircle = new EvilCircle(width / 2, height / 2);
 function loop() {
   ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
   ctx.fillRect(0, 0, width, height);
